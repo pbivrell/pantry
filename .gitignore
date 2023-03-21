@@ -1,0 +1,7 @@
+api/data/access.sh
+api/dumps/
+api/sec
+api/.terraform*
+api/terraform*
+.DS_Store
+.DS_Store?
