@@ -1,0 +1,118 @@
+[
+  {
+    "name": "apple",
+    "price": 2.38,
+    "icon": "assets/images/products/apple.jpeg",
+    "id": 0,
+    "tags": [4]
+  },
+  {
+    "name": "grapes",
+    "price": 12.57,
+    "icon": "assets/images/products/grapes.jpeg",
+    "id": 1,
+    "tags": [4],
+    "quantity": 5.0,
+    "unit": "oz"
+  },
+  {
+    "name": "orange",
+    "price": 0.51,
+    "icon": "assets/images/products/orange.jpeg",
+    "id": 2,
+    "tags": [4],
+    "quantity": 3.2
+  },
+  {
+    "name": "pear",
+    "price": 6.12,
+    "icon": "assets/images/products/pear.jpeg",
+    "id": 3,
+    "tags": [4],
+    "detail": "Special Brand"
+  },
+  {
+    "name": "banana",
+    "price": 1.05,
+    "icon": "assets/images/products/banana.jpeg",
+    "id": 4,
+    "tags":  [4]
+  },
+  {
+    "name": "broccoli",
+    "price": 2.38,
+    "icon": "assets/images/products/broccoli.png",
+    "id": 5,
+    "tags": [5]
+  },
+  {
+    "name": "kale",
+    "price": 234.56,
+    "icon": "assets/images/products/kale.jpeg",
+    "id": 6,
+    "tags": [5]
+  },
+  {
+    "name": "cucumber",
+    "price": 0.75,
+    "icon": "assets/images/products/cucumber.jpeg",
+    "id": 7,
+    "tags": [5]
+  },
+  {
+    "name": "carrot",
+    "price": 9.32,
+    "icon": "assets/images/products/carrot.jpeg",
+    "id": 8,
+    "tags": [5]
+  },
+  {
+    "name": "steak",
+    "price": 21.53,
+    "icon": "assets/images/products/steak.jpeg",
+    "id": 9,
+    "tags": [7]
+  },
+  {
+    "name": "chicken",
+    "price": 9.38,
+    "icon": "assets/images/products/chicken.jpeg",
+    "id": 10,
+    "tags": [7]
+  },
+  {
+    "name": "lamb",
+    "price": 22.91,
+    "icon": "assets/images/products/lamb.jpeg",
+    "id": 11,
+    "tags": [7]
+  },
+  {
+    "name": "milk",
+    "price": 2.38,
+    "icon": "assets/images/products/milk.jpeg",
+    "id": 12,
+    "tags": [7]
+  },
+  {
+    "name": "cheese",
+    "price": 18.73,
+    "icon": "assets/images/products/cheese.jpeg",
+    "id": 13,
+    "tags": [7]
+  },
+  {
+    "name": "cereal",
+    "price": 6.38,
+    "icon": "assets/images/products/cereal.jpeg",
+    "id": 14,
+    "tags": [8]
+  },
+  {
+    "name": "bread",
+    "price": 2.38,
+    "icon": "assets/images/products/bread.jpeg",
+    "id": 15,
+    "tags": [8]
+  }
+]

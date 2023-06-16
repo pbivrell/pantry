@@ -8,8 +8,10 @@ import 'package:untitled/pages/ProductPage.dart';
 import 'package:untitled/pages/ReceiptPage.dart';
 
 import 'package:untitled/pages/SearchPage.dart';
+import '../componets/AbsSearchList.dart';
 import '../componets/DB.dart';
 import '../componets/ProductTile.dart';
+import '../models/meal.dart';
 import '../models/product.dart';
 import 'MealPage.dart';
 
@@ -33,13 +35,24 @@ class DriverPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
-              child: SearchList(),
+              child: AbsSearchList<Product>(checkable: true, deletable: true, ghostItem: true, searchable: true, loadFunc: Product.Load,),
             ),
             Column(children: [
               Expanded(
-                child: Scaffold(
+                child: AbsSearchList<Meal>(addable: true, addFunc: (){
+                  return Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) =>
+                      const NewMealPage()));
+                  },
+                  loadFunc: Meal.Load,
+                ),
+
+
+  /*Scaffold(
                   body: ListView.builder(
                     itemCount: 2,
                     padding: EdgeInsets.all(12),
@@ -61,12 +74,6 @@ class DriverPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NewMealPage()));
-                                },
                               )
                             : ListTile(
                                 onTap: () {
@@ -87,7 +94,7 @@ class DriverPage extends StatelessWidget {
                       );
                     },
                   ),
-                ),
+                ),*/
               ),
             ]),
             Column(

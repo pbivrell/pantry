@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:untitled/componets/AbsSearchList.dart';
 import 'package:untitled/componets/WrappedListTile.dart';
 
 import '../models/product.dart';
@@ -33,7 +34,6 @@ class _IngredientSelectorState extends State<IngredientSelector> {
       isar.txnSync(() {
         var vals = isar.products.where().findAllSync();
         setState(() {
-          print(vals);
           selectedIngredients = {...vals};
         });
       });
@@ -61,15 +61,48 @@ class _IngredientSelectorState extends State<IngredientSelector> {
     super.dispose();
   }
 
+  Future<List<Product>> getProducts(String term) {
+    print("Getting Product");
+    var completer = Completer<List<Product>>();
+    completer.complete(selectedIngredients.toList());
+    return completer.future;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        saveIngredients();
-        return true;
+        onWillPop: () async {
+          print("Poping");
+          saveIngredients();
+          return true;
         },
-      child: Expanded(
-        child: ListView.builder(
+        child: Expanded(
+          child: AbsSearchList<Product>(
+            loadFunc: getProducts,
+            addable: true,
+            deletable: true,
+            addFunc: () {
+              return Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Scaffold(
+                        appBar: AppBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          leading: const BackButton(
+                            color: Colors.black,
+                          ),
+                        ),
+                        body: AbsSearchList<Product>(
+                          loadFunc: Product.Load,
+                          checkable: true,
+                        ))),
+              );
+            },
+          ),
+        ));
+
+    /* ListView.builder(
             itemCount: selectedIngredients.length + 1,
             padding: EdgeInsets.all(12),
             itemBuilder: (context, item) {
@@ -115,6 +148,6 @@ class _IngredientSelectorState extends State<IngredientSelector> {
                     );
             }),
       ),
-    );
+    );*/
   }
 }

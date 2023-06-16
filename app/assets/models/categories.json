@@ -1,0 +1,47 @@
+[
+  {
+    "name": "any",
+    "icon": "assets/images/categories/all.png",
+    "id": 0
+  },
+  {
+    "name": "breakfast",
+    "icon": "assets/images/categories/breakfast.png",
+    "id": 1
+  },
+  {
+    "name": "lunch",
+    "icon": "assets/images/categories/lunch.png",
+    "id": 2
+  },
+  {
+    "name": "dinner",
+    "icon": "assets/images/categories/dinner.png",
+    "id": 3
+  },
+  {
+    "name": "fruit",
+    "icon": "assets/images/categories/fruit.png",
+    "id": 4
+  },
+  {
+    "name": "vegetable",
+    "icon": "assets/images/categories/vegetable.png",
+    "id": 5
+  },
+  {
+    "name": "dairy",
+    "icon": "assets/images/categories/dairy.png",
+    "id": 6
+  },
+  {
+    "name": "meat",
+    "icon": "assets/images/categories/meat.png",
+    "id": 7
+  },
+  {
+    "name": "grain",
+    "icon": "assets/images/categories/grain.png",
+    "id": 8
+  }
+]

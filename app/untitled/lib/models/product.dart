@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:isar/isar.dart';
+import 'package:untitled/consts.dart';
+import 'package:http/http.dart' as http;
+
+import '../componets/AbsSearchList.dart';
 
 part 'product.g.dart';
 
@@ -37,7 +43,12 @@ class Product {
     );
   }
 
-  Product.localOnly(this.name): price = 0, icon = "", inPantry = false, backId = -1, localOnly = true;
+  Product.localOnly(this.name)
+      : price = 0,
+        icon = "",
+        inPantry = false,
+        backId = -1,
+        localOnly = true;
 
   @override
   bool operator ==(o) => o is Product && backId == o.backId;
@@ -49,4 +60,19 @@ class Product {
   String toString() {
     return name;
   }
+
+  static Future<List<Product>> Load(String term) {
+      final uri = 'http://$apiURL/api/products/search/$term';
+
+      return http.get(Uri.parse(uri),
+          headers: {"cookie": "X-Session-Token=alwaysvalid"}).then(
+              (response) {
+                if (response.statusCode == 200) {
+                  var list = json.decode(response.body) as List;
+                  List<Product> x = list.map((i) => Product.fromJson(i)).toList();
+                  return x;
+                }
+                throw Exception("$response");
+      });
+    }
 }

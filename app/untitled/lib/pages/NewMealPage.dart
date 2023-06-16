@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/componets/AbsSearchList.dart';
 import 'package:untitled/componets/IngredientSelector.dart';
 import 'package:untitled/models/product.dart';
 
@@ -66,7 +67,28 @@ class _NewMealPageState extends State<NewMealPage> {
               textAlign: TextAlign.left,
             ),
           ),
-          IngredientSelector(),
+          Expanded(
+            child: AbsSearchList<Product>(
+              addable: true,
+              deletable: true,
+              addFunc: () {
+                return Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Scaffold(      appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        leading: const BackButton(
+                          color: Colors.black,
+                        ),
+                      ),body: AbsSearchList<Product>(
+                            loadFunc: Product.Load,
+                            checkable: true,
+                          ))),
+                );
+              },
+            ),
+          ),
           // Expanded(child: SearchList())
           //SearchList(),
           //SearchList2(),
