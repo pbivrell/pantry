@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:groceryui/models/tripItem.dart';
 import 'package:groceryui/pages/ocr.dart';
+import 'package:groceryui/pages/one-reciept.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
+import 'dart:convert';
 
 import '../constants.dart';
 
-const OcrURL = "https://grocery-ocr-dev-7osudstnga-uc.a.run.app/api/ocr";
+
 
 class RecieptPage extends StatefulWidget {
   const RecieptPage({Key? key}) : super(key: key);
@@ -19,14 +24,37 @@ class RecieptPage extends StatefulWidget {
 
 class _RecieptPageState extends State<RecieptPage> {
   var loading = false;
+  var fetching = false;
   var alert = false;
   String? token = "";
+  final StreamController<List<ReciptItem>> productStream =
+      StreamController<List<ReciptItem>>();
 
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      fetching = true;
       token = prefs.getString('token');
     });
+    loadProducts();
+  }
+
+  void loadProducts() async {
+    final response = await http.get(Uri.parse('$ExposerURL/summary'),
+        headers: {"cookie": "X-Session-Token=$token"});
+
+    setState(() {
+      fetching = false;
+    });
+    if (response.statusCode == 200) {
+      var list = json.decode(response.body) as List;
+
+      var x = list.map((i) => ReciptItem.fromJson(i)).toList();
+
+      productStream.add(x);
+    } else {
+      print("status: $response.statusCode");
+    }
   }
 
   void uploadImage(XFile image) async {
@@ -60,13 +88,14 @@ class _RecieptPageState extends State<RecieptPage> {
       setState(() {
         alert = true;
       });
+      loadProducts();
     }
   }
 
   @override
   void initState() {
-    getToken();
     super.initState();
+    getToken();
   }
 
   @override
@@ -96,37 +125,56 @@ class _RecieptPageState extends State<RecieptPage> {
                       ),
                     ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 13,
-                      padding: EdgeInsets.only(bottom: 40),
-                      itemBuilder: (context, item) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            radius: 31,
-                            backgroundColor: secondary,
-                            child: CircleAvatar(
-                              radius: 29,
-                              foregroundImage: AssetImage(
-                                "assets/images/stores/kingsoopers.png",
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                              "Boulder - ${DateFormat('MM/dd/yy').format(DateTime.now())}"),
-                          subtitle: Text("Items: 43"),
-                          trailing: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: primary!),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "\$32",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: inPrimaryText),
-                            ),
-                          ),
-                        );
+                    child: StreamBuilder<List<ReciptItem>>(
+                      stream: productStream.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data?.length,
+                            padding: EdgeInsets.only(bottom: 40),
+                            itemBuilder: (context, item) {
+                              final sum = snapshot.data![item];
+                              return ListTile(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          SingleReceipt(token: token!, id: sum.id)
+                                          ));
+                                },
+                                leading: CircleAvatar(
+                                  radius: 31,
+                                  backgroundColor: secondary,
+                                  child: CircleAvatar(
+                                    radius: 29,
+                                    foregroundImage: AssetImage(
+                                      "assets/images/stores/kingsoopers.png",
+                                    ),
+                                  ),
+                                ),
+                                title: Text(
+                                    "Boulder - ${DateFormat('MM/dd/yy').format(sum.visit)}"),
+                                subtitle: Text("Items: ${sum.count}"),
+                                trailing: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: primary!),
+                                  ),
+                                  padding: EdgeInsets.all(5),
+                                  child: Text(
+                                    "\$${sum.total/100}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: inPrimaryText),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          setState(() {
+                            alert = true;
+                          });
+                        }
+                        return (fetching) ? Center(child: const CircularProgressIndicator()) : const Center(child: Text("Nothing to display. Upload a receipt"));
                       },
                     ),
                   ),
@@ -138,11 +186,9 @@ class _RecieptPageState extends State<RecieptPage> {
                   backgroundColor: Colors.white,
                   title: const Text('Failed to upload'),
                   content: const SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        Text('Please take another picture'),
-                      ],
-                    ),
+                    child: ListBody(children: <Widget>[
+                      Text('Please take another picture'),
+                    ]),
                   ),
                   actions: <Widget>[
                     TextButton(
@@ -163,7 +209,7 @@ class _RecieptPageState extends State<RecieptPage> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8, top: 8, bottom: 16, right: 8),
               child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -178,10 +224,7 @@ class _RecieptPageState extends State<RecieptPage> {
                         ),
                       ]),
                   child: TextButton(
-                    child: Text(
-                      "Scan New Receipt",
-                      style: TextStyle(color: secondary, fontSize: 15),
-                    ),
+                    child: Icon(Icons.camera_alt_outlined),
                     onPressed: () async {
                       var cameras = await availableCameras()
                           .timeout(const Duration(seconds: 10), onTimeout: () {

@@ -19,6 +19,7 @@ class CameraApp extends StatefulWidget {
 
 class _CameraAppState extends State<CameraApp> {
   late CameraController controller;
+  bool taking = false;
 
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
@@ -68,6 +69,10 @@ class _CameraAppState extends State<CameraApp> {
     if (controller.value.isTakingPicture) {
       return;
     }
+
+    setState(() {
+      taking = true;
+    });
     try {
       controller.setFlashMode(FlashMode.off);
       var picture = await controller.takePicture();
@@ -76,6 +81,9 @@ class _CameraAppState extends State<CameraApp> {
       debugPrint('Error occured while taking picture: $e');
       return;
     }
+    setState(() {
+      taking = false;
+    });
   }
 
   @override
@@ -90,8 +98,9 @@ class _CameraAppState extends State<CameraApp> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: const BackButton(color: Colors.black),
       body: Stack(children: [
-        (controller.value.isInitialized)
-            ? LayoutBuilder(
+        if (taking)
+          Center(child: CircularProgressIndicator()),
+        if (controller.value.isInitialized) LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(
                     width: constraints.maxWidth,
@@ -174,8 +183,7 @@ class _CameraAppState extends State<CameraApp> {
                     ),
                   );
                 },
-              )
-            : Container(
+              ) else Container(
                 color: Colors.black,
                 child: const Center(child: CircularProgressIndicator())),
       ]),
