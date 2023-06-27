@@ -198,15 +198,18 @@ func (a *App) HandlePhotoUpload() http.HandlerFunc {
 		err = c.WriteTrip(r.Context(), uid, tripFile)
 		if err != nil {
 			fmt.Printf("failed to write ocr trip: %v", err)
-			http.Error(w, "", http.StatusInternalServerError)
-			return
 		}
 
 		err = writeToStorage(r.Context(), &buf, uid, len(errs))
 		if err != nil {
 			fmt.Printf("failed to backup image: %v\n", err)
-			return
 		}
+
+		err = c.WriteSummary(r.Context(), uid, tripFile)
+		if err != nil {
+			fmt.Printf("failed to write ocr summary: %v\n", err)
+		}
+
 	}
 }
 
