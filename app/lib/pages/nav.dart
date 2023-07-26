@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groceryui/pages/cart.dart';
-import 'package:groceryui/pages/food.dart';
+import 'package:groceryui/pages/search.dart';
 import 'package:groceryui/pages/login.dart';
-import 'package:groceryui/pages/meal.dart';
+import 'package:groceryui/pages/home.dart';
 import 'package:groceryui/pages/reciept.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,10 +32,11 @@ class _NavState extends State<Nav> {
   }
 
   static const List<Widget> _pages = <Widget>[
-    FoodPage(),
-    MealPage(),
+    HomePage(),
+    Scaffold(),
     CartPage(),
     RecieptPage(),
+    CartPage(),
   ];
 
   bool _authenticated = true;

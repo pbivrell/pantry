@@ -56,7 +56,6 @@ class _SingleReceiptState extends State<SingleReceipt> {
       appBar: AppBar(
         title: Row(
           children: [
-
             Column(
                 children: [
                   Padding(

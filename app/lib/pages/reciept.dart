@@ -13,8 +13,6 @@ import 'dart:convert';
 
 import '../constants.dart';
 
-
-
 class RecieptPage extends StatefulWidget {
   const RecieptPage({Key? key}) : super(key: key);
 
@@ -131,15 +129,18 @@ class _RecieptPageState extends State<RecieptPage> {
                         if (snapshot.hasData) {
                           return ListView.builder(
                             itemCount: snapshot.data?.length,
-                            padding: EdgeInsets.only(bottom: 40),
                             itemBuilder: (context, item) {
                               final sum = snapshot.data![item];
                               return ListTile(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleReceipt(token: token!, id: sum.id)
-                                          ));
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    if (mounted) {
+                                      return SingleReceipt(
+                                          token: token!, id: sum.id);
+                                    }
+                                    return Container();
+                                  }));
                                 },
                                 leading: CircleAvatar(
                                   radius: 31,
@@ -161,7 +162,7 @@ class _RecieptPageState extends State<RecieptPage> {
                                   ),
                                   padding: EdgeInsets.all(5),
                                   child: Text(
-                                    "\$${sum.total/100}",
+                                    "\$${sum.total / 100}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: inPrimaryText),
                                   ),
@@ -174,8 +175,41 @@ class _RecieptPageState extends State<RecieptPage> {
                             alert = true;
                           });
                         }
-                        return (fetching) ? Center(child: const CircularProgressIndicator()) : const Center(child: Text("Nothing to display. Upload a receipt"));
+                        return (fetching)
+                            ? Center(child: const CircularProgressIndicator())
+                            : const Center(
+                                child: Text(
+                                    "Nothing to display. Upload a receipt"));
                       },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: primary!),
+                        ),
+                        child: TextButton(
+                          child: Icon(Icons.camera_alt_outlined),
+                          onPressed: () async {
+                            var cameras = await availableCameras().timeout(
+                                const Duration(seconds: 10), onTimeout: () {
+                              print("giving up");
+                              return [];
+                            });
+                            var output = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CameraApp(cameras: cameras)));
+                            if (output != null) {
+                              uploadImage(output);
+                            }
+                          },
+                        )
                     ),
                   ),
                 ],
@@ -202,46 +236,6 @@ class _RecieptPageState extends State<RecieptPage> {
                   ],
                 ),
             ],
-          ),
-        ),
-        SizedBox(height: 50),
-        Center(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8, top: 8, bottom: 16, right: 8),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: primary!),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
-                  child: TextButton(
-                    child: Icon(Icons.camera_alt_outlined),
-                    onPressed: () async {
-                      var cameras = await availableCameras()
-                          .timeout(const Duration(seconds: 10), onTimeout: () {
-                        print("giving up");
-                        return [];
-                      });
-                      var output = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CameraApp(cameras: cameras)));
-                      if (output != null) {
-                        uploadImage(output);
-                      }
-                    },
-                  )),
-            ),
           ),
         ),
       ],

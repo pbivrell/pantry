@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryui/pages/food.dart';
+import 'package:groceryui/pages/search.dart';
 import 'package:groceryui/pages/nav.dart';
 
 import 'constants.dart';
