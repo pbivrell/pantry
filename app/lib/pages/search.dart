@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:groceryui/models/cartItem.dart';
 import 'package:groceryui/models/categoryItem.dart';
+import 'package:groceryui/pages/product.dart';
 import 'dart:convert';
 
 import '../constants.dart';
@@ -40,10 +41,10 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 50),
           search(),
           Padding(
             padding: const EdgeInsets.only(right: 8, bottom: 4),
@@ -83,28 +84,42 @@ class _SearchPageState extends State<SearchPage> {
         final product = products[item];
         return Stack(
           children: [
-            Container(
-              child: Container(
-                width: 100,
-                height: 110,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(17),
-                  border: Border.all(color: secondary),
-                  image: DecorationImage(fit: BoxFit.cover, image: AssetImage(product.iconPath)),
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Product(token: "", id: 0)));
+              },
+              child: SizedBox(
+                width: 120,
+                height: 130,
+                child: Container(
+                  width: 100,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(17),
+                    border: Border.all(color: secondary),
+                    image: DecorationImage(fit: BoxFit.cover, image: AssetImage(product.iconPath)),
+                  ),
                 ),
               ),
-              width: 120,
-              height: 130,
             ),
             Positioned(
               top: 1,
               left: 0,
-              child: SizedBox(
-                height: 25,
-                child: Icon(
-                  Icons.add,
-                  color: secondary,
+              child: InkWell(
+                onTap: (){
+                  print("daw");
+                },
+                child: SizedBox(
+                  height: 25,
+                  child: Icon(
+                    Icons.add,
+                    color: secondary,
+                  ),
                 ),
               ),
             ),

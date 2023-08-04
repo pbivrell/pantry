@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:groceryui/models/tripItem.dart';
+import 'package:groceryui/models/reciptItem.dart';
+import 'package:groceryui/models/trip.dart';
 import 'package:groceryui/pages/ocr.dart';
 import 'package:groceryui/pages/one-reciept.dart';
 import 'package:intl/intl.dart';
@@ -25,34 +26,28 @@ class _RecieptPageState extends State<RecieptPage> {
   var fetching = false;
   var alert = false;
   String? token = "";
-  final StreamController<List<ReciptItem>> productStream =
-      StreamController<List<ReciptItem>>();
+  final StreamController<List<RecieptItem>> productStream =
+      StreamController<List<RecieptItem>>();
 
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var t = prefs.getString("token") ?? "";
     setState(() {
       fetching = true;
-      token = prefs.getString('token');
+      token = t;
     });
-    loadProducts();
+    loadProducts(DisableHTTP, t!);
   }
 
-  void loadProducts() async {
-    final response = await http.get(Uri.parse('$ExposerURL/summary'),
-        headers: {"cookie": "X-Session-Token=$token"});
-
-    setState(() {
-      fetching = false;
-    });
-    if (response.statusCode == 200) {
-      var list = json.decode(response.body) as List;
-
-      var x = list.map((i) => ReciptItem.fromJson(i)).toList();
-
-      productStream.add(x);
-    } else {
-      print("status: $response.statusCode");
+  void loadProducts(bool disabled, String token) async {
+    List<RecieptItem> recipts;
+    if (disabled) {
+      recipts = await RecieptItem.readJson();
+    }else {
+      recipts = await RecieptItem.getSummary(token);
     }
+    productStream.add(recipts);
+    return;
   }
 
   void uploadImage(XFile image) async {
@@ -86,7 +81,7 @@ class _RecieptPageState extends State<RecieptPage> {
       setState(() {
         alert = true;
       });
-      loadProducts();
+      loadProducts(true, token!);
     }
   }
 
@@ -101,7 +96,7 @@ class _RecieptPageState extends State<RecieptPage> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 50.0),
+          padding: const EdgeInsets.only(top: 10.0),
           child: Stack(
             children: [
               Column(
@@ -123,7 +118,7 @@ class _RecieptPageState extends State<RecieptPage> {
                       ),
                     ),
                   Expanded(
-                    child: StreamBuilder<List<ReciptItem>>(
+                    child: StreamBuilder<List<RecieptItem>>(
                       stream: productStream.stream,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

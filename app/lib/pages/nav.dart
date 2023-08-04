@@ -36,11 +36,10 @@ class _NavState extends State<Nav> {
     Scaffold(),
     CartPage(),
     RecieptPage(),
-    CartPage(),
   ];
 
   bool _authenticated = true;
-  String _token = "-NWd0wmQY2r6rgy9lM3q";
+  String _token = "-NWdhtIiAZ_mAgIj_9WT";
 
   @override
   Widget build(BuildContext context) {

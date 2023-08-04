@@ -14,9 +14,9 @@ Color inPrimaryText = secondary;
 MaterialColor? swatch = Colors.purple;
 Color? alternate = Colors.grey[300];
 
+const DisableHTTP = true;
 const OcrURL = "https://grocery-ocr-dev-7osudstnga-uc.a.run.app/api/";
-const ExposerURL =
-    "https://grocery-exposer-dev-7osudstnga-uc.a.run.app/api/";
+const ExposerURL = "https://grocery-exposer-dev-7osudstnga-uc.a.run.app/api/";
 
 /*
 Color? primary = Colors.purple[200];
