@@ -57,7 +57,6 @@ class _SingleReceiptState extends State<SingleReceipt> {
             );
         }
 
-
         return Scaffold(
           appBar: AppBar(
             title: Row(
@@ -82,7 +81,7 @@ class _SingleReceiptState extends State<SingleReceipt> {
                     child: CircleAvatar(
                       radius: 29,
                       foregroundImage: AssetImage(
-                        "assets/images/stores/kingsoopers.png",
+                        receipt.iconPath,
                       ),
                     ),
                   ),

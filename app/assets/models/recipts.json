@@ -3,6 +3,7 @@
     "date": "2006-01-02T15:04:05",
     "visit": "2006-01-02T15:04:05",
     "addr": "757 Owl Ct",
+    "iconPath": "assets/images/stores/kingsoopers.png",
     "id": 1,
     "items": [
       {

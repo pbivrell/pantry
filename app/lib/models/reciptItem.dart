@@ -2,40 +2,17 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/services.dart';
-import 'package:groceryui/models/trip.dart';
+import 'package:groceryui/models/purchaseItem.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
-
-
-class Purchase {
-  final String name;
-  final int price;
-
-  Purchase(
-      {
-        required this.name,
-        required this.price,
-      });
-
-  factory Purchase.fromJson(Map<String, dynamic> json) {
-    return Purchase(
-      name: json['name'],
-      price: json['price'],
-    );
-  }
-
-  @override
-  String toString() {
-    return json.encode(this);
-  }
-}
 
 class RecieptItem{
 
   final DateTime date;
   final DateTime visit;
   final String addr;
+  final String iconPath;
   final int id;
   List<Purchase>? purchases;
   int count;
@@ -46,6 +23,7 @@ class RecieptItem{
         required this.id,
         required this.date,
         required this.addr,
+        required this.iconPath,
         this.purchases,
         this.count = 0,
         this.total = 0,
@@ -61,6 +39,7 @@ class RecieptItem{
       date: DateTime.parse(json['date']),
       visit: DateTime.parse(json['visit']),
       addr: json['addr'],
+      iconPath: json['iconPath'],
       count: json['count']??0,
       total: json['total']??0,
       purchases: x,

@@ -6,78 +6,43 @@ class Demo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late Future<List<int>> _value;
+
+    Future<List<int>> a() {
+        return Future.delayed(Duration(milliseconds: 100), (){
+          return [1,2,3];
+        });
+    }
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox.expand(
-          child: Container(
-            color: Colors.black,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: Colors.blue,
-                        width: 150,
-                        height: 200,
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Container(
-                          color: Colors.red,
-                          child: Column(
-                            children: [
-                              Text("Apple" ),
-                              SizedBox(
-                                height: 30,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                    Expanded(child: Text("King Soopers")),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.green,
-                                      child: Text("A"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.yellow,
-                                      child: Text("B"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.brown,
-                                      child: Text("Ciasfhiuashfiuahsifuhaisfuhasiuhf"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          children: [
+            Container(
+              color: Colors.red,
+              height: 300,
             ),
-          ),
+            FutureBuilder(
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                return Column(
+                  children: [
+                    Container(
+                      color: Colors.green,
+                      height: 100,
+                    ),
+                    Container(
+                      color: Colors.blue,
+                      height: 100,
+                    ),
+                    Container(
+                      color: Colors.yellow,
+                      height: 100,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

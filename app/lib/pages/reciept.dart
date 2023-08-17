@@ -143,7 +143,7 @@ class _RecieptPageState extends State<RecieptPage> {
                                   child: CircleAvatar(
                                     radius: 29,
                                     foregroundImage: AssetImage(
-                                      "assets/images/stores/kingsoopers.png",
+                                      sum.iconPath,
                                     ),
                                   ),
                                 ),

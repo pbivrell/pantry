@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceryui/pages/cart.dart';
+import 'package:groceryui/pages/demo.dart';
 import 'package:groceryui/pages/search.dart';
 import 'package:groceryui/pages/login.dart';
 import 'package:groceryui/pages/home.dart';

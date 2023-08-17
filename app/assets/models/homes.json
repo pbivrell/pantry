@@ -1,0 +1,107 @@
+[
+  {
+    "title": "buy again",
+    "items": [
+      {
+        "icon": "assets/images/products/cheese.jpeg",
+        "name": "cheese",
+        "price": 1873
+      },
+      {
+        "name": "carrot",
+        "price": 932,
+        "icon": "assets/images/products/carrot.jpeg"
+      },
+      {
+        "name": "cucumber",
+        "price": 75,
+        "icon": "assets/images/products/cucumber.jpeg"
+      },
+      {
+        "name": "kale",
+        "price": 23456,
+        "icon": "assets/images/products/kale.jpeg"
+      },
+      {
+        "name": "banana",
+        "price": 105,
+        "icon": "assets/images/products/banana.jpeg"
+      },
+      {
+        "name": "orange",
+        "price": 51,
+        "icon": "assets/images/products/orange.jpeg"
+      }
+     ]
+  },
+  {
+    "title": "recently cheap",
+    "items": [
+      {
+        "name": "cucumber",
+        "price": 75,
+        "icon": "assets/images/products/cucumber.jpeg"
+      },
+      {
+        "name": "kale",
+        "price": 23456,
+        "icon": "assets/images/products/kale.jpeg"
+      },
+      {
+        "icon": "assets/images/products/cheese.jpeg",
+        "name": "cheese",
+        "price": 1873
+      },
+      {
+        "name": "carrot",
+        "price": 932,
+        "icon": "assets/images/products/carrot.jpeg"
+      },
+      {
+        "name": "banana",
+        "price": 105,
+        "icon": "assets/images/products/banana.jpeg"
+      },
+      {
+        "name": "orange",
+        "price": 51,
+        "icon": "assets/images/products/orange.jpeg"
+      }
+    ]
+  },
+  {
+    "title": "other one",
+    "items": [
+      {
+        "name": "cucumber",
+        "price": 75,
+        "icon": "assets/images/products/cucumber.jpeg"
+      },
+      {
+        "name": "kale",
+        "price": 23456,
+        "icon": "assets/images/products/kale.jpeg"
+      },
+      {
+        "icon": "assets/images/products/cheese.jpeg",
+        "name": "cheese",
+        "price": 1873
+      },
+      {
+        "name": "carrot",
+        "price": 932,
+        "icon": "assets/images/products/carrot.jpeg"
+      },
+      {
+        "name": "banana",
+        "price": 105,
+        "icon": "assets/images/products/banana.jpeg"
+      },
+      {
+        "name": "orange",
+        "price": 51,
+        "icon": "assets/images/products/orange.jpeg"
+      }
+    ]
+  }
+]

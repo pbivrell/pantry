@@ -154,7 +154,6 @@ func (a *App) HandlePhotoUpload() http.HandlerFunc {
 			fmt.Printf("ocr error: %v\n", err)
 			return
 		}
-		//Access the photo key - First Approach
 		file, _, err := r.FormFile("photo")
 		if err != nil {
 			http.Error(w, "", http.StatusBadRequest)
@@ -200,7 +199,7 @@ func (a *App) HandlePhotoUpload() http.HandlerFunc {
 			fmt.Printf("failed to write ocr trip: %v", err)
 		}
 
-		err = writeToStorage(r.Context(), &buf, uid, len(errs))
+		err = writeToStorage(r.Context(), &buf, uid)
 		if err != nil {
 			fmt.Printf("failed to backup image: %v\n", err)
 		}
@@ -213,9 +212,9 @@ func (a *App) HandlePhotoUpload() http.HandlerFunc {
 	}
 }
 
-func writeToStorage(ctx context.Context, file io.Reader, uid, errors int) error {
+func writeToStorage(ctx context.Context, file io.Reader, uid int) error {
 	bucket := "groceryui-photostore"
-	object := fmt.Sprintf("%d-%d-%d.png", time.Now().UnixNano(), uid, errors)
+	object := fmt.Sprintf("%d-%d-%d.png", time.Now().UnixNano(), uid)
 
 	client, err := storage.NewClient(ctx)
 	if err != nil {

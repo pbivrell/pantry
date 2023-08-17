@@ -1,0 +1,23 @@
+{
+  "name": "apple",
+  "price": 238,
+  "iconPath":"assets/images/products/orange.jpeg",
+  "stats": {
+    "Paid": "$2.34",
+    "Bought": 6,
+    "Rec": "3/2/1997",
+    "Reent": "3/2/1997",
+    "Rent": "3/2/1997",
+    "ecent": "3/2/1997"
+  },
+  "stores": [
+    {
+      "id": 0,
+      "iconPath": "assets/images/stores/kingsoopers.png"
+    },
+    {
+      "id": 0,
+      "iconPath": "assets/images/stores/kingsoopers.png"
+    }
+  ]
+}

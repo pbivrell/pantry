@@ -7,7 +7,7 @@ class CartItem{
   final String name;
   final String iconPath;
   final int id;
-  final double price;
+  final int price;
   double? quantity;
   String? unit;
   String? specific;
